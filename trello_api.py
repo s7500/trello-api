@@ -43,17 +43,8 @@ def create(name, column_name):
             break
 
 def create_column(column_name):
-    #idk wtf this shit is not work
-    #получаем данные о колонках
-    column_data = requests.get(base_url.format('boards') + '/' + board_id + '/lists', params=auth_params).json()
-    #перебираем все и проверяем на дублирование
-    for column in column_data:
-        if column['name'] == column_name:
-            print("Такая колонка уже существует!")
-            break
-        else:
-            requests.post(base_url.format('lists'), data={'name': column_name, 'idBoard': board_id, **auth_params})
-            break
+    requests.post(base_url.format('boards') + '/' + board_id + '/lists', data={'name': column_name, **auth_params})
+
 
 def move(name, column_name):
     # Получим данные всех колонок на доске
@@ -87,4 +78,4 @@ if __name__ == "__main__":
     elif sys.argv[1] == 'move':
         move(sys.argv[2], sys.argv[3])
     elif sys.argv[1] == 'create_column':
-        create_column(sys.argv[2], sys.argv[3])
+        create_column(sys.argv[2])
